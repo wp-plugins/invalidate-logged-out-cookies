@@ -125,7 +125,7 @@ if (!class_exists('InvalidateLoggedOutCookies')) {
 				$sql = $wpdb->prepare( "
 					CREATE TABLE $table_name (
 					ID BIGINT(20) UNSIGNED NOT NULL auto_increment,
-					logged_in_id BIGINT(20) UNSIGNED DEFAULT NULL,
+					reference_id BIGINT(20) UNSIGNED DEFAULT NULL,
 					username VARCHAR(60) NOT NULL DEFAULT '',
 					expiration INT(11) NOT NULL DEFAULT 0,
 					hash VARCHAR(40) NOT NULL DEFAULT '',
@@ -234,7 +234,7 @@ if (!class_exists('InvalidateLoggedOutCookies')) {
 				else {
 					$sql = $wpdb->prepare( "
 						INSERT INTO $table_name
-						( logged_in_id, username, expiration, hash, scheme )
+						( reference_id, username, expiration, hash, scheme )
 						VALUES
 						( %d, %s, %d, %s, %s )",
 						$logged_in_id, $a['username'], $a['expiration'], $a['hmac'], $a['scheme']);
@@ -273,7 +273,7 @@ if (!class_exists('InvalidateLoggedOutCookies')) {
 					UPDATE $table_name
 					SET logged_out = 1
 					WHERE ID = %d
-					OR logged_in_id = %d",
+					OR reference_id = %d",
 					$row->ID, $row->ID);
 				$wpdb->query( $sql );
 			}
