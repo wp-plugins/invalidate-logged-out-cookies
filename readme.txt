@@ -43,9 +43,11 @@ This is a non-comprehensive list of other plugins that also override this functi
 * [PhotoQ Photoblog Plugin](http://wordpress.org/extend/plugins/photoq-photoblog-plugin/ "PhotoQ Photoblog Plugin")
 
 = How can I know if this plugin is properly overriding the 'wp_validate_auth_cookie' function? =
-Once activated, a message will be added below this plugin on the plugin's menu with the answer. This will only work if you're using PHP 5 (PHP 4 doesn't include reflection support).
+Once activated, a message will be added below this plugin on the plugin's menu with the answer. If another plugin is overriding the function, you'll also see a more substantial admin notice.
 
 == Changelog ==
 
+= 0.1.1 =
+The message indicating that this plugin is overriding the `wp_validate_auth_cookie` now works with PHP4 (supports WP 2.8.x only)
 = 0.1 =
 Initial version (supports WP 2.8 only)

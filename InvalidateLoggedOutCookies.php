@@ -11,11 +11,15 @@ if (!class_exists('InvalidateLoggedOutCookies')) {
 		var $logged_in_array = false;
 		var $auth_array = false;
 		var $text_domain_loaded = false;
+		var $success;
 
 		/**
 		 * Constructor
+		 *
+		 * @param bool $success If this plugin is successfully overriding the 'wp_validate_auth_cookie' function
 		 */
-		function InvalidateLoggedOutCookies() {
+		function InvalidateLoggedOutCookies($success) {
+			$this->success = $success;
 			$plugin_file = dirname(__FILE__).'/plugin.php';
 
 			if ( function_exists('register_activation_hook') )
@@ -30,6 +34,10 @@ if (!class_exists('InvalidateLoggedOutCookies')) {
 
 				$pbn = plugin_basename($plugin_file);
 				add_action("after_plugin_row_$pbn", array(&$this, 'after_plugin_row'), 10, 3);
+
+				// only add this message if not successful
+				if (!$success && current_user_can('manage_options'))
+					add_action('admin_notices', 'admin_notices');
 			}
 		}
 
@@ -44,6 +52,22 @@ if (!class_exists('InvalidateLoggedOutCookies')) {
 		}
 
 		/**
+		 * Plugin hook (admin_notices)
+		 */
+		function admin_notices() {
+			$this->load_textdomain();
+
+			if ( method_exists('ReflectionFunction', 'getFileName') ) { // if >= PHP 5
+				$func = new ReflectionFunction('wp_validate_auth_cookie');
+				$filename = $func->getFileName();
+				print '<div class="error"><p>' . sprintf(__('<strong>Error:</strong> <em>Invalidate Logged Out Cookies</em> is NOT overriding the <code>wp_validate_auth_cookie</code> function. This function can only be overridden by one plugin at a time. Currently, this function is being overridden in the following file <code>%s</code>. Please disable this plugin or the other one that is causing the conflict.', $this->text_domain), htmlspecialchars($filename)) . '</p></div>';
+			}
+			else {
+				print '<div class="error"><p>' . __('<strong>Error:</strong> <em>Invalidate Logged Out Cookies</em> is NOT overriding the <code>wp_validate_auth_cookie</code> function. This function can only be overridden by one plugin at a time. Currently, this function is being overridden by another plugin. Please disable this plugin or the other one that is causing the conflict.', $this->text_domain) . '</p></div>';
+			}
+		}
+
+		/**
 		 * Plugin hook (after_plugin_row for this plugin specifically)
 		 * Print a message indicating if the 'wp_validate_auth_cookie' function is being overridden by this plugin
  		 *
@@ -55,16 +79,18 @@ if (!class_exists('InvalidateLoggedOutCookies')) {
 			$this->load_textdomain();
 
 			echo '<tr><td colspan="3">';
-			if ( method_exists('ReflectionFunction', 'getFileName') ) { // if >= PHP 5
-				$func = new ReflectionFunction('wp_validate_auth_cookie');
-				$filename = $func->getFileName();
-				if ($filename == dirname(__FILE__).'/pluggable_overrides.php')
-					_e('<strong>Success:</strong> This plugin is properly overriding the <code>wp_validate_auth_cookie</code> function.', $this->text_domain);
-				else
-					printf(__('<strong>Error:</strong> The following requirement is not being met! This plugin is NOT overriding the <code>wp_validate_auth_cookie</code> function. This function can only be overridden by one plugin at a time. Currently, this function is being overridden in the following file <code>%s</code>. Please disable this plugin or the other one that is causing the conflict.', $this->text_domain), htmlspecialchars($filename));
+			if ( $this->success ) {
+				_e('<strong>Success:</strong> This plugin is properly overriding the <code>wp_validate_auth_cookie</code> function.', $this->text_domain);
 			}
 			else {
-				printf(__('<strong>Warning:</strong> It is currently unknown if this plugin is overriding the <code>wp_validate_auth_cookie</code> function. This can occur if you haven\'t upgraded to PHP 5. You appear to be using PHP %s. Overriding this function is a requirement of this plugin.', $this->text_domain), PHP_VERSION);
+				if ( method_exists('ReflectionFunction', 'getFileName') ) { // if >= PHP 5
+					$func = new ReflectionFunction('wp_validate_auth_cookie');
+					$filename = $func->getFileName();
+					printf(__('<strong>Error:</strong> The following requirement is not being met! This plugin is NOT overriding the <code>wp_validate_auth_cookie</code> function. This function can only be overridden by one plugin at a time. Currently, this function is being overridden in the following file <code>%s</code>. Please disable this plugin or the other one that is causing the conflict.', $this->text_domain), htmlspecialchars($filename));
+				}
+				else {
+					_e('<strong>Error:</strong> The following requirement is not being met! This plugin is NOT overriding the <code>wp_validate_auth_cookie</code> function. This function can only be overridden by one plugin at a time. Currently, this function is being overridden by another plugin. Please disable this plugin or the other one that is causing the conflict.');
+				}
 			}
 			echo '</td></tr>';
 		}

@@ -1,6 +1,6 @@
 <?php
-// Copied from WP2.8 pluggable.php file
 if ( !function_exists('wp_validate_auth_cookie') ) :
+// Copied from WP2.8 pluggable.php file
 /**
  * Validates authentication cookie.
  *
@@ -72,4 +72,6 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 
 	return $user->ID;
 }
+return 'success';
 endif;
+return 'failure';
