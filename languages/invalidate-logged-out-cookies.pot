@@ -1,0 +1,41 @@
+# Invalidate Logged Out Cookies v0.1 POT file
+# This file is released under the same license as WordPress
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/invalidate-logged-out-"
+"cookies\n"
+"POT-Creation-Date: 2009-06-21 15:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: InvalidateLoggedOutCookies.php:62
+msgid ""
+"<strong>Success:</strong> This plugin is properly overriding the "
+"<code>wp_validate_auth_cookie</code> function."
+msgstr ""
+
+#: InvalidateLoggedOutCookies.php:64
+#, php-format
+msgid ""
+"<strong>Error:</strong> The following requirement is not being met! This "
+"plugin is NOT overriding the <code>wp_validate_auth_cookie</code> function. "
+"This function can only be overridden by one plugin at a time. Currently, "
+"this function is being overridden in the following file <code>%s</code>. "
+"Please disable this plugin or the other one that is causing the conflict."
+msgstr ""
+
+#: InvalidateLoggedOutCookies.php:67
+#, php-format
+msgid ""
+"<strong>Warning:</strong> It is currently unknown if this plugin is "
+"overriding the <code>wp_validate_auth_cookie</code> function. This can occur "
+"if you haven't upgraded to PHP 5. You appear to be using PHP %s. Overriding "
+"this function is a requirement of this plugin."
+msgstr ""
