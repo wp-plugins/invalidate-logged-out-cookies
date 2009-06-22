@@ -47,5 +47,5 @@ Once activated, a message will be added below this plugin on the plugin's menu w
 
 == Changelog ==
 
-= 0.1 = 
+= 0.1 =
 Initial version (supports WP 2.8 only)
