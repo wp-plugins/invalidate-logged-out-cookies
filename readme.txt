@@ -47,7 +47,5 @@ Once activated, a message will be added below this plugin on the plugin's menu w
 
 == Changelog ==
 
-= 0.1.1 =
-The message indicating that this plugin is overriding the `wp_validate_auth_cookie` now works with PHP4 (supports WP 2.8.x only)
 = 0.1 =
 Initial version (supports WP 2.8 only)

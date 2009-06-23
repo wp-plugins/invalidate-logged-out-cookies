@@ -3,7 +3,7 @@
 Plugin Name: Invalidate Logged Out Cookies
 Plugin URI: http://moggy.laceous.com/
 Description: This plugin immediately invalidates your auth cookies when you manually log out. This can limit the amount of time an attacker can hijack your session.
-Version: 0.1.1
+Version: 0.1
 Author: moggy
 Author URI: http://moggy.laceous.com/
 */
