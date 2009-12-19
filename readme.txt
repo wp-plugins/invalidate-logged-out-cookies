@@ -1,8 +1,8 @@
 === Invalidate Logged Out Cookies ===
 Contributors: laceous
 Tags: login, logout, security, cookies
-Requires at least: 2.8
-Tested up to: 2.8
+Requires at least: 2.9
+Tested up to: 2.9
 Stable tag: trunk
 
 This plugin will immediately invalidate your auth cookies when you manually log out.
@@ -42,10 +42,20 @@ This is a non-comprehensive list of other plugins that also override this functi
 * [Disclose-Secret](http://wordpress.org/extend/plugins/disclose-secret/ "Disclose-Secret")
 * [PhotoQ Photoblog Plugin](http://wordpress.org/extend/plugins/photoq-photoblog-plugin/ "PhotoQ Photoblog Plugin")
 
+It's also possible that if another plugin is overriding a related function (e.g. `wp_generate_auth_cookie`) that this plugin will not work correctly.
+
 = How can I know if this plugin is properly overriding the 'wp_validate_auth_cookie' function? =
 Once activated, if this plugin is NOT overriding the function, then a message will be shown to admin users towards the top of every admin page.
 
+= What if I can't log in after activating this plugin? =
+Simply rename or delete the plugin so WordPress can't find it. This step requires that you have access to the filesystem where WordPress is installed (via FTP, SFTP, etc).
+
+There's a small chance that this might happen. It most likely happens because of an incompatibility with another plugin that also overrides one of the core `auth_cookie` functions.
+
 == Changelog ==
 
+= 0.1.1 =
+* Update for WP 2.9 (supports WP 2.9 only)
+* Added the `auth_cookie_invalidated_cookie` action
 = 0.1 =
-Initial version (supports WP 2.8 only)
+* Initial version (supports WP 2.8 only)

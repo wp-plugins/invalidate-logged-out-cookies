@@ -1,6 +1,6 @@
 <?php
 if ( !function_exists('wp_validate_auth_cookie') ) :
-// Copied from WP2.8 pluggable.php file
+// Copied from WP 2.9 pluggable.php file
 /**
  * Validates authentication cookie.
  *
@@ -55,18 +55,14 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	/******************** PLUGIN ADDITIONS ********************/
 
 	if ( InvalidateLoggedOutCookies::is_cookie_invalid($username, $expiration, $hmac, $scheme) ) {
+		do_action('auth_cookie_invalidated_cookie', $cookie_elements);
 		return false;
 	}
 
-	// It'd be nice if the return statement below included 'apply_filter'
-	//  Then we wouldn't have to override this entire function
-	// Under PHP5 we could also set $user->ID via the 'auth_cookie_valid' action
-	//  Unfortunately, this won't work in PHP4
-	// Some talk about changing pluggable functions to 'return apply_filter()':
-	//  http://www.nabble.com/overriding-pluggable.php-functions-td21379698.html
-	//  http://core.trac.wordpress.org/ticket/8833
-
 	/******************** PLUGIN ADDITIONS ********************/
+
+	if ( $expiration < time() ) // AJAX/POST grace period set above
+		$GLOBALS['login_grace_period'] = 1;
 
 	do_action('auth_cookie_valid', $cookie_elements, $user);
 
