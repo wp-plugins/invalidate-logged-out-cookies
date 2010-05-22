@@ -9,6 +9,8 @@ This plugin will immediately invalidate your auth cookies when you manually log 
 
 == Description ==
 
+**Due to lack of interest (both my own and based on the number of downloads) this plugin will not be updated for WP 3.0**
+
 WordPress' auth cookies include a built-in expiration date (either 2 or 14 days depending on if the 'Remember Me' option is checked). Even if you remove the client-side cookie (by manually logging out or just closing your browser if 'Remember Me' wasn't checked when logging in) the data that was stored within the cookie is still valid until the expiration date is reached.
 
 This could be an issue if someone managed to "steal" your cookie(s). They would still be able to access your website for some time into the future.
